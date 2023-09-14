@@ -1,6 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
 import os
+
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+
 '''
 GET /api should return all persons/users
 POST /api should create a new person
@@ -32,6 +34,11 @@ class Person(db.Model):
     def __init__(self, username, track):
         self.username = username
         self.track = track
+
+@app.route("/")
+def home():
+    return "Hello World"
+
 
 # Route to get all persons
 @app.route("/api", methods=["GET"])
@@ -87,7 +94,7 @@ def update_person(id):
 @app.route("/api/<int:id>", methods=["DELETE"])
 def delete_person(id):
     person = Person.query.get(id)
-    
+        
     db.session.delete(person)
     db.session.commit()
 
